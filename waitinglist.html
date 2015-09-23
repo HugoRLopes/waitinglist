@@ -1,0 +1,64 @@
+<head>
+    <title>waitinglist</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <h1>Bim</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
+            {{> forms}}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-xs-offset-3 text-center">
+            {{> waiters}}
+        </div>
+    </div>
+</body>
+
+<template name="forms">
+    <h3>Join us</h3>
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="name"></label>
+            <input type="text" name="name" class="form-control" id="name" placeholder="Your name">
+        </div>
+        <div class="form-group">
+            <label for="email"></label>
+            <input type="email" name="email" required class="form-control" id="email" placeholder="Your email">
+        </div>
+        <button type="button" class="btn btn-default" name="button" id="add">Join</button>
+    </form>
+
+</template>
+
+<template name="waiters">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each waiters}}
+            <tr>
+                <th>#</th>
+                <th>{{name}}</th>
+                <th>{{shares}}</th>
+                <th>
+                    <button type="button" name="button" class="btn btn-danger" id="delete">Delete</button>
+                </th>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</template>
