@@ -2,3 +2,15 @@
 table {
     margin-top: 20px;
 }
+
+tbody {
+    counter-reset: rowNumber;
+}
+
+tbody tr {
+    counter-increment: rowNumber;
+}
+
+tbody td:first-child:after {
+    content: counter(rowNumber);
+}

@@ -1,8 +1,10 @@
-<head>
-    <title>waitinglist</title>
-</head>
+<template name="home">
+    <head>
+        <title>waitinglist home</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    </head>
 
-<body>
+    <body>
     <div class="row">
         <div class="col-xs-12 text-center">
             <h1>Bim</h1>
@@ -10,7 +12,14 @@
     </div>
     <div class="row">
         <div class="col-xs-6 col-xs-offset-3 text-center">
-            {{> forms}}
+            {{#if alreadyWaiter}}
+                {{#with alreadyWaiter}}
+                    <p>Hello <b>{{name}}</b> ! Tu as actuellement partagé <b>{{shares}}</b> fois. Tu es en position <b>{{position}}</b>.</p>
+                    <p>Ton lien de partage : http://localhost:3000/share/{{_id}}</p>
+                {{/with}}
+            {{else}}
+                {{> forms}}
+            {{/if}}
         </div>
     </div>
     <div class="row">
@@ -18,7 +27,8 @@
             {{> waiters}}
         </div>
     </div>
-</body>
+    </body>
+</template>
 
 <template name="forms">
     <h3>Join us</h3>
@@ -50,12 +60,12 @@
         <tbody>
             {{#each waiters}}
             <tr>
-                <th>#</th>
-                <th>{{name}}</th>
-                <th>{{shares}}</th>
-                <th>
+                <td></td>
+                <td>{{name}}</td>
+                <td>{{shares}}</td>
+                <td>
                     <button type="button" name="button" class="btn btn-danger" id="delete">Delete</button>
-                </th>
+                </td>
             </tr>
             {{/each}}
         </tbody>

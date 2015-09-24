@@ -1,9 +1,23 @@
-Template.waiters.helpers({
-    alreadyWaiter: function() {
+Meteor.subscribe('waiters');
 
-    },
+Template.home.helpers({
+    alreadyWaiter: function() {
+        if(Session.get("waiterID")){
+            var curUser = Waiters.findOne({_id: Session.get("waiterID")});
+            if(curUser){
+                return {_id: curUser._id, name: curUser.name, shares: curUser.shares, position: getPosition(curUser)};
+            } else {
+                return null;
+            }
+        };
+    }
+});
+
+Template.waiters.helpers({
     waiters: function() {
-        return Waiters.find({});
+        var waitersList = Waiters.find({}, {sort: {shares: -1, createdAt: 1}, limit: 10});
+
+        return waitersList;
     }
 });
 
@@ -13,14 +27,9 @@ Template.forms.events({
         var name = $('#name').val(),
             email = $('#email').val();
 
-        newWaiter = Waiters.insert({
-            name: name,
-            email: email,
-            shares: 0,
-            createdAt: Date.now()
-        }, function(error, result) {
-            if (result) {
-                Session.setPersistent("waitersID", result);
+        Meteor.call('insertWaiter', {name: name, email: email}, function(error, result){
+            if(result){
+                Session.setPersistent("waiterID", result);
                 console.log(result);
             }
         });
@@ -30,15 +39,10 @@ Template.forms.events({
 Template.waiters.events({
     "click #delete": function(event) {
         event.preventDefault();
-        newWaiter = Waiters.remove({
-            _id: this._id
-        }, function(error, result) {
-            if (result) {
-                // var test = Session.setPersistent("waitersID", result);
+        Meteor.call('removeWaiter', this, function(error, result){
+            if(result){
                 console.log(result);
-            } else {
-                console.log(error);
             }
-        });
+        })
     }
 })
